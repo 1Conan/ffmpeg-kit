@@ -553,6 +553,7 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' "${BASEDIR
   --enable-encoder=libwebp_anim \
   --enable-muxer=webp \
   --enable-protocol=file \
+  --enable-filter=null \
   ${CONFIGURE_POSTFIX} 1>>"${BASEDIR}"/build.log 2>&1
 
 if [[ $? -ne 0 ]]; then
