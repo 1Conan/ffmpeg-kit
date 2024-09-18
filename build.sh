@@ -20,10 +20,10 @@ set -e
   --no-bitcode
 
 FRAMEWORK_NAMES=(ffmpegkit libavcodec libavdevice libavfilter libavformat libavutil libswresample libswscale)
-VISIONOS_SIM_PLATFORM=xrossim
-VISIONOS_PLATFORM=xros
-VISIONOS_MINOS=1.0
-VISIONOS_SDK=1.0
+XROS_SIM_PLATFORM=xrossim
+XROS_PLATFORM=xros
+XROS_MINOS=1.0
+XROS_SDK=1.0
 
 PATCHED_FRAMEWORKS=prebuilt/patched-frameworks
 PATCHED_XCFRAMEWORKS=prebuilt/patched-xcframeworks
@@ -35,30 +35,30 @@ for FRAMEWORK in "${FRAMEWORK_NAMES[@]}"; do
   echo Processing $FRAMEWORK.framework
 
   IOS_ORIGINAL_FRAMEWORK="prebuilt/bundle-apple-xcframework-ios/${FRAMEWORK}.xcframework/ios-arm64/${FRAMEWORK}.framework"
-  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos/${FRAMEWORK}.framework
+  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros/${FRAMEWORK}.framework
 
   rm -rf ${PATCHED_FRAMEWORKS}/${FRAMEWORK}
 
   # VisionOS
-  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos/${FRAMEWORK}.framework
-  mkdir -p ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos
+  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros/${FRAMEWORK}.framework
+  mkdir -p ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros
   cp -r ${IOS_ORIGINAL_FRAMEWORK} ${OUTPUT_FRAMEWORK}
   rm ${OUTPUT_FRAMEWORK}/${FRAMEWORK}
 
   vtool \
-    -set-build-version ${VISIONOS_PLATFORM} ${VISIONOS_MINOS} ${VISIONOS_SDK} \
+    -set-build-version ${XROS_PLATFORM} ${XROS_MINOS} ${XROS_SDK} \
     -replace \
     -output ${OUTPUT_FRAMEWORK}/${FRAMEWORK} \
     ${IOS_ORIGINAL_FRAMEWORK}/${FRAMEWORK}
 
   # VisionOS Simulator
-  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos-sim/${FRAMEWORK}.framework
-  mkdir -p ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos-sim
+  OUTPUT_FRAMEWORK=${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros-sim/${FRAMEWORK}.framework
+  mkdir -p ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros-sim
   cp -r ${IOS_ORIGINAL_FRAMEWORK} ${OUTPUT_FRAMEWORK}
   rm ${OUTPUT_FRAMEWORK}/${FRAMEWORK}
 
   vtool \
-    -set-build-version ${VISIONOS_SIM_PLATFORM} ${VISIONOS_MINOS} ${VISIONOS_SDK} \
+    -set-build-version ${XROS_SIM_PLATFORM} ${XROS_MINOS} ${XROS_SDK} \
     -replace \
     -output ${OUTPUT_FRAMEWORK}/${FRAMEWORK} \
     ${IOS_ORIGINAL_FRAMEWORK}/${FRAMEWORK}
@@ -74,8 +74,8 @@ for FRAMEWORK in "${FRAMEWORK_NAMES[@]}"; do
   xcodebuild -create-xcframework \
     -framework ${XCFRAMEWORK}/ios-arm64/${FRAMEWORK}.framework \
     -framework ${XCFRAMEWORK}/ios-arm64_x86_64-simulator/${FRAMEWORK}.framework \
-    -framework ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos/${FRAMEWORK}.framework \
-    -framework ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/visionos-sim/${FRAMEWORK}.framework \
+    -framework ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros/${FRAMEWORK}.framework \
+    -framework ${PATCHED_FRAMEWORKS}/${FRAMEWORK}/xros-sim/${FRAMEWORK}.framework \
     -output prebuilt/patched-xcframeworks/${FRAMEWORK}.xcframework
   pushd prebuilt/patched-xcframeworks > /dev/null
     rm -rf ${FRAMEWORK}.xcframework.zip
