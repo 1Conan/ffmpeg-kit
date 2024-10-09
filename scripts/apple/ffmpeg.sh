@@ -548,7 +548,7 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' "${BASEDIR
   --enable-encoder=hevc_videotoolbox,aac_at \
   --enable-muxer=mov,adts \
   --enable-protocol=file \
-  --enable-filter=scale,null,format,anull,aresample \
+  --enable-filter=scale,null,format,anull,aresample,drawtext,color \
   --enable-lto \
   ${CONFIGURE_POSTFIX} 1>>"${BASEDIR}"/build.log 2>&1
 
