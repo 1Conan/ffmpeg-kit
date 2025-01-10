@@ -545,7 +545,7 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' "${BASEDIR
   --enable-videotoolbox \
   --enable-decoder=libvpx_vp9,opus \
   --enable-demuxer=matroska,ogg \
-  --enable-encoder=hevc_videotoolbox,aac_at \
+  --enable-encoder=hevc_videotoolbox,aac_at,libwebp_anim \
   --enable-muxer=mov,adts \
   --enable-protocol=file \
   --enable-filter=scale,null,format,anull,aresample,drawtext,color \
