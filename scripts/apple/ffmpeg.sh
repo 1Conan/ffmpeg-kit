@@ -543,9 +543,9 @@ ${SED_INLINE} 's/static int av_log_level/__thread int av_log_level/g' "${BASEDIR
   --enable-avfoundation \
   --enable-audiotoolbox \
   --enable-videotoolbox \
-  --enable-decoder=libvpx_vp9,opus \
+  --enable-decoder=libvpx_vp9,opus,h264_videotoolbox \
   --enable-demuxer=matroska,ogg \
-  --enable-encoder=hevc_videotoolbox,aac_at,libwebp_anim \
+  --enable-encoder=hevc_videotoolbox,h264_videotoolbox,aac_at,opus,libwebp_anim \
   --enable-muxer=mov,adts \
   --enable-protocol=file \
   --enable-filter=scale,null,format,anull,aresample,drawtext,color \
